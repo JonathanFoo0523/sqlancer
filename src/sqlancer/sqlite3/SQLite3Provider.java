@@ -211,6 +211,9 @@ public class SQLite3Provider extends SQLProviderAdapter<SQLite3GlobalState, SQLi
                         if (q.couldAffectSchema() && globalState.getSchema().getDatabaseTables().isEmpty()) {
                             throw new IgnoreMeException();
                         }
+                        if (q.couldAffectSchema()) {
+                            globalState.updateSchema();
+                        }
                     });
             se.executeStatements();
 

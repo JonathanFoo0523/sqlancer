@@ -17,8 +17,14 @@ public final class SQLite3DeleteGenerator {
     }
 
     public static SQLQueryAdapter deleteContent(SQLite3GlobalState globalState) {
-        SQLite3Table tableName = globalState.getSchema().getRandomTable(t -> !t.isView() && !t.isReadOnly());
-        return deleteContent(globalState, tableName);
+        try {
+            SQLite3Table tableName = globalState.getSchema().getRandomTable(t -> !t.isView() && !t.isReadOnly());
+            return deleteContent(globalState, tableName);
+        } catch (Exception e) {
+            ExpectedErrors errors = new ExpectedErrors();
+            errors.add("[SQLITE_ERROR] SQL error or missing database (no such table: none)");
+            return new SQLQueryAdapter("DELETE FROM none", errors, true);
+        }
     }
 
     public static SQLQueryAdapter deleteContent(SQLite3GlobalState globalState, SQLite3Table tableName) {
