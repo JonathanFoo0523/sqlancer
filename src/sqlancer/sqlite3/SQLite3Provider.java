@@ -135,7 +135,7 @@ public class SQLite3Provider extends SQLProviderAdapter<SQLite3GlobalState, SQLi
             nrPerformed = r.getInteger(0, 0);
             break;
         case ALTER:
-            nrPerformed = r.getInteger(0, 0);
+            nrPerformed = r.getInteger(0, 10);
             break;
         case EXPLAIN:
         case CREATE_TRIGGER:
