@@ -45,6 +45,9 @@ public class SQLite3AlterTable {
         errors.add("subqueries prohibited in CHECK constraints");
         errors.add("subqueries prohibited in index expressions");
         errors.add("parser stack overflow");
+
+        errors.add("CHECK constraint failed");
+
         Option option = Randomly.fromOptions(Option.values());
         SQLite3Table t = s.getRandomTableOrBailout(tab -> !tab.isView() && !tab.isVirtual() && !tab.isReadOnly());
         sb.append("ALTER TABLE ");
