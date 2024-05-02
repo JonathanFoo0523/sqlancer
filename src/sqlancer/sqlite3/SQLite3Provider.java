@@ -165,7 +165,7 @@ public class SQLite3Provider extends SQLProviderAdapter<SQLite3GlobalState, SQLi
         case CREATE_TABLE:
         case CREATE_VIRTUALTABLE:
         case CREATE_RTREETABLE:
-            nrPerformed = 0;
+            nrPerformed = r.getInteger(0, 2);
             break;
         case TRANSACTION_START:
         case REINDEX:
