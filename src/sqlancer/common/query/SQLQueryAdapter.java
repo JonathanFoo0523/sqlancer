@@ -50,13 +50,14 @@ public class SQLQueryAdapter extends Query<SQLConnection> {
     private String canonicalizeString(String s) {
         if (s.endsWith(";")) {
             return s;
-        } else if (!s.contains("--")) {
+        } else if (!s.contains("-- ")) {
             return s + ";";
         } else {
             // query contains a comment
             return s;
         }
     }
+
 
     private void checkQueryString() {
         if (!couldAffectSchema && guessAffectSchemaFromQuery(query)) {
