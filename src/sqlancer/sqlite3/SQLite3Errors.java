@@ -19,6 +19,16 @@ public final class SQLite3Errors {
         // trigger with on conflict clause
         errors.add("ON CONFLICT clause does not match any PRIMARY KEY or UNIQUE constraint");
 
+        errors.add("[SQLITE_CONSTRAINT_CHECK]");
+        errors.add("[SQLITE_CONSTRAINT_PRIMARYKEY]");
+        errors.add("[SQLITE_CONSTRAINT_FOREIGNKEY]");
+        errors.add("[SQLITE_CONSTRAINT]");
+        errors.add("[SQLITE_CONSTRAINT_PINNED]");
+        errors.add("[SQLITE_CONSTRAINT_NOTNULL]");
+        errors.add("[SQLITE_CONSTRAINT_UNIQUE]");
+        errors.add("[SQLITE_CONSTRAINT_TRIGGER]");
+        errors.add("[SQLITE_CONSTRAINT_ROWID]");
+
         return errors;
     }
 
@@ -154,9 +164,13 @@ public final class SQLite3Errors {
         errors.add("String or BLOB exceeds size limit");
         errors.add("[SQLITE_CONSTRAINT_CHECK]");
         errors.add("[SQLITE_CONSTRAINT_PRIMARYKEY]");
+        errors.add("[SQLITE_CONSTRAINT_FOREIGNKEY]");
         errors.add("[SQLITE_CONSTRAINT]");
         errors.add("[SQLITE_CONSTRAINT_NOTNULL]");
         errors.add("[SQLITE_CONSTRAINT_UNIQUE]");
+        errors.add("[SQLITE_CONSTRAINT_TRIGGER]");
+        errors.add("[SQLITE_CONSTRAINT_ROWID]");
+        errors.add("[SQLITE_CONSTRAINT_PINNED]");
         errors.add("cannot INSERT into generated column"); // TODO: filter out generated columns
         errors.add("A table in the database is locked"); // https://www.sqlite.org/src/tktview?name=56a74875be
         errors.add("The database file is locked");

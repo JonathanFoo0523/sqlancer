@@ -138,9 +138,11 @@ public class SQLite3Provider extends SQLProviderAdapter<SQLite3GlobalState, SQLi
             nrPerformed = r.getInteger(0, 10);
             break;
         case EXPLAIN:
+            nrPerformed = r.getInteger(0, 0);
+            break;
         case CREATE_TRIGGER:
         case DROP_TABLE:
-            nrPerformed = r.getInteger(0, 0);
+            nrPerformed = r.getInteger(0, 10);
             break;
         case VACUUM:
         case CHECK_RTREE_TABLE:
