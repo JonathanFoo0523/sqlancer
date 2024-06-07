@@ -71,6 +71,9 @@ public class SQLite3Options implements DBMSSpecificOptions<SQLite3OracleFactory>
     @Parameter(names = { "--test-in-operator" }, description = "Allow the generation of the IN operator", arity = 1)
     public boolean testIn = true;
 
+    @Parameter(names = { "--test-update-delete-limit" }, description = "Allow the generation of the ORDER_BY and LIMIT operator in UPDATE and DELETE, which can be enabled using a compile-time option.", arity = 1)
+    public boolean testUpdateDeleteLimit = true;
+
     @Parameter(names = {
             "--test-distinct-in-view" }, description = "DISTINCT in views might cause occasional false positives in NoREC and TLP", arity = 1)
     public boolean testDistinctInView;
