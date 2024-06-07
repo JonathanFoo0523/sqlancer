@@ -13,15 +13,22 @@ import sqlancer.sqlite3.ast.SQLite3Constant;
 import sqlancer.sqlite3.gen.SQLite3ExpressionGenerator;
 import sqlancer.sqlite3.schema.SQLite3Schema.SQLite3Column;
 import sqlancer.sqlite3.schema.SQLite3Schema.SQLite3Table;
+import sqlancer.sqlite3.ast.SQLite3Expression;
 
 public class SQLite3UpdateGenerator extends AbstractUpdateGenerator<SQLite3Column> {
 
     private final SQLite3GlobalState globalState;
     private final Randomly r;
+    private final boolean atTopLevel;
 
     public SQLite3UpdateGenerator(SQLite3GlobalState globalState, Randomly r) {
+        this(globalState, r, false);
+    }
+
+    public SQLite3UpdateGenerator(SQLite3GlobalState globalState, Randomly r, boolean atTopLevel) {
         this.globalState = globalState;
         this.r = r;
+        this.atTopLevel = atTopLevel;
     }
 
     public static SQLQueryAdapter updateRow(SQLite3GlobalState globalState) {
@@ -30,8 +37,20 @@ public class SQLite3UpdateGenerator extends AbstractUpdateGenerator<SQLite3Colum
         return updateRow(globalState, randomTableNoViewOrBailout);
     }
 
+    public static SQLQueryAdapter updateRowAtTopLevel(SQLite3GlobalState globalState) {
+        SQLite3Table randomTableNoViewOrBailout = globalState.getSchema()
+                .getRandomTableOrBailout(t -> !t.isView() && !t.isReadOnly());
+        return updateRow(globalState, randomTableNoViewOrBailout, true);
+    }
+
     public static SQLQueryAdapter updateRow(SQLite3GlobalState globalState, SQLite3Table table) {
-        SQLite3UpdateGenerator generator = new SQLite3UpdateGenerator(globalState, globalState.getRandomly());
+        // SQLite3UpdateGenerator generator = new SQLite3UpdateGenerator(globalState, globalState.getRandomly());
+        // return generator.generate(table);
+        return updateRow(globalState, table, false);
+    }
+
+    public static SQLQueryAdapter updateRow(SQLite3GlobalState globalState, SQLite3Table table, boolean atTopLevel) {
+        SQLite3UpdateGenerator generator = new SQLite3UpdateGenerator(globalState, globalState.getRandomly(), atTopLevel);
         return generator.generate(table);
     }
 
@@ -85,6 +104,27 @@ public class SQLite3UpdateGenerator extends AbstractUpdateGenerator<SQLite3Colum
         // sb.append(" ORDER BY ");
         // sb.append(expressions.stream().map(e -> SQLite3Visitor.asString(e)).collect(Collectors.joining(", ")));
         // }
+        if (globalState.getDbmsSpecificOptions().testUpdateDeleteLimit && atTopLevel) {
+            if (Randomly.getBooleanWithRatherLowProbability()) {
+                // ORDER BY
+                List<SQLite3Expression> expressions = new SQLite3ExpressionGenerator(globalState).setColumns(table.getColumns()).generateOrderBys();
+                if (!expressions.isEmpty()) {
+                    sb.append(" ORDER BY ");
+                    sb.append(expressions.stream().map(e -> SQLite3Visitor.asString(e)).collect(Collectors.joining(", ")));
+                }
+            }
+
+            if (Randomly.getBooleanWithRatherLowProbability()) {
+                // LIMIT
+                sb.append(" LIMIT ");
+                sb.append(SQLite3Visitor.asString(SQLite3Constant.createIntConstant(r.getInteger())));
+                if (Randomly.getBoolean()) {
+                    // OFFSET
+                    sb.append(" OFFSET ");
+                    sb.append(SQLite3Visitor.asString(SQLite3Constant.createIntConstant(r.getInteger())));
+                }
+            }
+        }  
 
         SQLite3Errors.addInsertUpdateErrors(errors);
 

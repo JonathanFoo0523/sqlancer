@@ -71,7 +71,7 @@ public class SQLite3Provider extends SQLProviderAdapter<SQLite3GlobalState, SQLi
         INSERT(SQLite3InsertGenerator::insertRow), // 7
         DELETE(SQLite3DeleteGenerator::deleteContent), // 8
         ALTER(SQLite3AlterTable::alterTable), // 9
-        UPDATE(SQLite3UpdateGenerator::updateRow), // 10
+        UPDATE(SQLite3UpdateGenerator::updateRowAtTopLevel), // 10
         DROP_INDEX(SQLite3DropIndexGenerator::dropIndex), // 11
         DROP_TABLE(SQLite3DropTableGenerator::dropTable), // 12
         DROP_VIEW(SQLite3ViewGenerator::dropView), // 13
