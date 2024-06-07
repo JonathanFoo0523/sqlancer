@@ -49,7 +49,7 @@ public class SQLite3AlterTable {
         errors.add("CHECK constraint failed");
         errors.add("non-deterministic functions prohibited in index expressions");
         errors.add("non-deterministic functions prohibited in partial index WHERE clauses");
-        errors.add("[SQLITE_ERROR] SQL error or missing database (SQL logic error)");
+        errors.add("SQL logic error");
 
         Option option = Randomly.fromOptions(Option.values());
         SQLite3Table t = s.getRandomTableOrBailout(tab -> !tab.isView() && !tab.isVirtual() && !tab.isReadOnly());
