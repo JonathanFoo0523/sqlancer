@@ -332,6 +332,7 @@ public final class PostgresCommon {
             values.remove(StorageParameters.OIDS);
             errors.add("unrecognized parameter");
             errors.add("ALTER TABLE / ADD CONSTRAINT USING INDEX is not supported on partitioned tables");
+            errors.add("cannot specify storage parameters for a partitioned table");
             List<StorageParameters> subset = Randomly.nonEmptySubset(values);
             int i = 0;
             for (StorageParameters parameter : subset) {
